@@ -211,7 +211,7 @@ class DavListener implements IEventListener
                     $tmpl->addBodyText($this->l10N->t("Dear %s,", $to_name));
 
                     // TRANSLATORS Main part of email, Ex: This is a reminder from {{Organization Name}} about your upcoming appointment on {{Date And Time}}. If you need to reschedule, please call {{Organization Phone}}.
-                    $tmpl->addBodyText($this->l10N->t('This is a reminder from %1$s about your upcoming appointment on %2$s. If you need to reschedule, please call %3$s.', [$org_name, $date_time, $org_phone]));
+                    $tmpl->addBodyText($this->l10N->t('This is a reminder from %1$s about your upcoming appointment on %2$s. If you need to reschedule, please send an email to %3$s.', [$org_name, $date_time, $org_email]));
 
                     $cnl_lnk_url = '';
 
@@ -905,7 +905,7 @@ class DavListener implements IEventListener
         try {
             $mailer->send($msg);
         } catch (\Exception $e) {
-            $this->logger->error("Can not send email to " . $to_email);
+            $this->logger->error($this->l10N->t("Can not send email to %s", [$org_email]));
             $this->logger->error($e->getMessage());
             return;
         }
@@ -949,7 +949,7 @@ class DavListener implements IEventListener
                 try {
                     $mailer->send($msg);
                 } catch (\Exception $e) {
-                    $this->logger->error("Can not send email to " . $org_email);
+                    $this->logger->error($this->l10N->t("Can not send email to %s", [$org_email]));
                     return;
                 }
             } else {
@@ -1179,7 +1179,7 @@ class DavListener implements IEventListener
             );
         }
 
-        $tmpl->addFooter("Booked via Nextcloud Appointments App");
+        $tmpl->addFooter($this->l10N->t("Booked via Lawmia Appointments App"));
 
     }
 
